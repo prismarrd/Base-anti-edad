@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Configuración
-    const WHATSAPP_PHONE = '18295705931';
+    const WHATSAPP_PHONE = '18097651290';
     
     // Elementos del DOM
     const offerCards = document.querySelectorAll('.offer-card');
