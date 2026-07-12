@@ -25,6 +25,11 @@ document.addEventListener('DOMContentLoaded', () => {
         checkoutModal.classList.add('active');
         document.body.classList.add('modal-open');
         
+        // Disparar evento InitiateCheckout de Meta Pixel
+        if (typeof fbq === 'function') {
+            fbq('track', 'InitiateCheckout');
+        }
+        
         // No auto-initialize values; they will be set when the user selects an offer.
         // Auto-focus on the name field after the modal opens (will be triggered after selection).
         setTimeout(() => {
@@ -97,9 +102,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Mapa de precios por cantidad y sincronización del selector
     const priceMap = {
         1: { price: 1475, savings: '20%' },
-        2: { price: 1999, savings: '46%' },
-        3: { price: 2999, savings: '46%' },
-        4: { price: 3999, savings: '46%' }
+        2: { price: 1990, savings: '46%' },
+        3: { price: 2990, savings: '46%' },
+        4: { price: 3990, savings: '46%' }
     };
     
     if (clientQtySelect) {
@@ -166,6 +171,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // Codificar URI
         const encodedMessage = encodeURIComponent(message);
         const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodedMessage}`;
+        
+        // Disparar evento Lead de Meta Pixel (Usuario completó el formulario con éxito)
+        if (typeof fbq === 'function') {
+            fbq('track', 'Lead', {
+                value: parseInt(total),
+                currency: 'DOP'
+            });
+        }
         
         // Redirigir
         window.open(whatsappUrl, '_blank');
