@@ -27,7 +27,15 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Disparar evento InitiateCheckout de Meta Pixel
         if (typeof fbq === 'function') {
-            fbq('track', 'InitiateCheckout');
+            const currentTotal = parseInt(document.getElementById('input-total').value) || 0;
+            if (currentTotal > 0) {
+                fbq('track', 'InitiateCheckout', {
+                    value: currentTotal,
+                    currency: 'DOP'
+                });
+            } else {
+                fbq('track', 'InitiateCheckout');
+            }
         }
         
         // No auto-initialize values; they will be set when the user selects an offer.
@@ -140,8 +148,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Manejar envío del formulario
+    let isSubmitting = false;
     orderForm.addEventListener('submit', (e) => {
         e.preventDefault();
+        
+        if (isSubmitting) return;
         
         // Obtener datos
         const name = document.getElementById('client-name').value.trim();
@@ -154,6 +165,8 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Por favor completa todos los campos.');
             return;
         }
+        
+        isSubmitting = true;
         
         // Construir mensaje de WhatsApp
         let message = `*¡Hola! Quiero hacer un pedido contra entrega* 🛍️\n\n`;
@@ -178,6 +191,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 value: parseInt(total),
                 currency: 'DOP'
             });
+            
+            // Disparar evento Purchase
+            fbq('track', 'Purchase', {
+                value: parseInt(total),
+                currency: 'DOP',
+                content_type: 'product'
+            });
         }
         
         // Redirigir
@@ -185,5 +205,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Opcional: Cerrar modal después de enviar
         closeModal();
+        
+        // Permitir nuevo envío después de 3 segundos para evitar duplicados accidentales
+        setTimeout(() => { isSubmitting = false; }, 3000);
     });
 });
