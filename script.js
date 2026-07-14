@@ -110,9 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Mapa de precios por cantidad y sincronización del selector
     const priceMap = {
         1: { price: 1475, savings: '20%' },
-        2: { price: 1990, savings: '46%' },
-        3: { price: 2990, savings: '46%' },
-        4: { price: 3990, savings: '46%' }
+        2: { price: 2390, savings: '46%' }
     };
     
     if (clientQtySelect) {
