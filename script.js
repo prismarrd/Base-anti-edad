@@ -99,11 +99,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const checkoutBox = document.querySelector('.checkout-box');
             if (checkoutBox) {
                 checkoutBox.classList.remove('hidden');
-                // Scroll to and focus on name input
+                // Focus on name input
                 setTimeout(() => {
-                    const nameInput = document.getElementById('client-name');
-                    nameInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    nameInput.focus();
+                    document.getElementById('client-name').focus();
                 }, 200);
             }
         });
@@ -111,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Mapa de precios por cantidad y sincronización del selector
     const priceMap = {
-        1: { price: 1675, savings: '24%' },
+        1: { price: 1475, savings: '20%' },
         2: { price: 2390, savings: '46%' }
     };
     
@@ -169,15 +167,15 @@ document.addEventListener('DOMContentLoaded', () => {
         isSubmitting = true;
         
         // Construir mensaje de WhatsApp
-        let message = `¡𝗛𝗼𝗹𝗮! 𝗤𝘂𝗶𝗲𝗿𝗼 𝗵𝗮𝗰𝗲𝗿 𝘂𝗻 𝗽𝗲𝗱𝗶𝗱𝗼 𝗰𝗼𝗻𝘁𝗿𝗮 𝗲𝗻𝘁𝗿𝗲𝗴𝗮 🛍️\n\n`;
-        message += `𝗣𝗿𝗼𝗱𝘂𝗰𝘁𝗼: Base antiedad\n`;
-        message += `𝗖𝗮𝗻𝘁𝗶𝗱𝗮𝗱: ${qty} Unidad(es)\n`;
-        message += `𝗧𝗼𝘁𝗮𝗹 𝗮 𝗣𝗮𝗴𝗮𝗿: RD$${parseInt(total).toLocaleString('en-US')}\n\n`;
+        let message = `*¡Hola! Quiero hacer un pedido contra entrega* 🛍️\n\n`;
+        message += `*Producto:* InfiniteGlow — Base Adaptable Anti-Edad\n`;
+        message += `*Cantidad:* ${qty} Unidad(es)\n`;
+        message += `*Total a Pagar:* RD$${parseInt(total).toLocaleString('en-US')}\n\n`;
         
-        message += `𝗠𝗶𝘀 𝗗𝗮𝘁𝗼𝘀 𝗽𝗮𝗿𝗮 𝗹𝗮 𝗘𝗻𝘁𝗿𝗲𝗴𝗮:\n`;
-        message += `👤 𝗡𝗼𝗺𝗯𝗿𝗲: ${name}\n`;
-        message += `📞 𝗧𝗲𝗹𝗲́𝗳𝗼𝗻𝗼: ${phone}\n`;
-        message += `📍 𝗗𝗶𝗿𝗲𝗰𝗰𝗶𝗼́𝗻: ${address}\n\n`;
+        message += `*Mis Datos para la Entrega:*\n`;
+        message += `👤 *Nombre:* ${name}\n`;
+        message += `📞 *Teléfono:* ${phone}\n`;
+        message += `📍 *Dirección:* ${address}\n\n`;
         
         message += `Quedo atento(a) para confirmar mi envío. ¡Gracias!`;
         
@@ -209,26 +207,4 @@ document.addEventListener('DOMContentLoaded', () => {
         // Permitir nuevo envío después de 3 segundos para evitar duplicados accidentales
         setTimeout(() => { isSubmitting = false; }, 3000);
     });
-
-    // WhatsApp Flotante Directo
-    const waFloatBtn = document.getElementById('wa-float-btn');
-    if (waFloatBtn) {
-        waFloatBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            let waMessage = `¡𝗛𝗼𝗹𝗮! 𝗤𝘂𝗶𝗲𝗿𝗼 𝗵𝗮𝗰𝗲𝗿 𝘂𝗻 𝗽𝗲𝗱𝗶𝗱𝗼 𝗰𝗼𝗻𝘁𝗿𝗮 𝗲𝗻𝘁𝗿𝗲𝗴𝗮 🛍️\n\n`;
-            waMessage += `𝗣𝗿𝗼𝗱𝘂𝗰𝘁𝗼: Base antiedad\n`;
-            waMessage += `𝗖𝗮𝗻𝘁𝗶𝗱𝗮𝗱 (𝗘𝘀𝗰𝗿𝗶𝗯𝗲 𝟭 𝗼 𝟮 𝘂𝗻𝗶𝗱𝗮𝗱𝗲𝘀):\n`;
-            waMessage += `👉 1 Unidad por RD$1,675\n`;
-            waMessage += `👉 2 Unidades por RD$2,390 (Envío Gratis)\n\n`;
-            waMessage += `𝗠𝗶𝘀 𝗗𝗮𝘁𝗼𝘀 𝗽𝗮𝗿𝗮 𝗹𝗮 𝗘𝗻𝘁𝗿𝗲𝗴𝗮:\n`;
-            waMessage += `👤 𝗡𝗼𝗺𝗯𝗿𝗲: \n`;
-            waMessage += `📞 𝗧𝗲𝗹𝗲́𝗳𝗼𝗻𝗼: \n`;
-            waMessage += `📍 𝗗𝗶𝗿𝗲𝗰𝗰𝗶𝗼́𝗻: \n\n`;
-            waMessage += `Quedo atento(a) para confirmar mi envío. ¡Gracias!`;
-            
-            const encodedWaMessage = encodeURIComponent(waMessage);
-            const floatWhatsappUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodedWaMessage}`;
-            window.open(floatWhatsappUrl, '_blank');
-        });
-    }
 });
